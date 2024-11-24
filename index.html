@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrehanaWeb</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        header {
+            background-color: #4F3F84;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        nav {
+            background-color: #FF662A;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: #FFA22A;
+            border-radius: 10px;
+        }
+        .form-container input, .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .dashboard {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        footer {
+            background-color: #4F3F84;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        footer a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CrehanaWeb</h1>
+        <p>La plataforma educativa diseñada para ti</p>
+    </header>
+    <nav>
+        <a href="#registro" onclick="showSection('registro')">Registro</a>
+        <a href="#login" onclick="showSection('login')">Inicio de Sesión</a>
+    </nav>
+
+    <!-- Registro Section -->
+    <section class="section" id="registro">
+        <h2>Registro</h2>
+        <div class="form-container">
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <input type="email" id="registerEmail" placeholder="Correo Electrónico" required>
+                <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section class="section" id="login">
+        <h2>Inicio de Sesión</h2>
+        <div class="form-container">
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="email" id="loginEmail" placeholder="Correo Electrónico" required>
+                <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="dashboard">
+        <h2>Bienvenido al Dashboard</h2>
+        <p>Esta es tu vista personalizada después de iniciar sesión.</p>
+    </section>
+
+    <footer>
+        <p>Síguenos en redes sociales:</p>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">YouTube</a>
+    </footer>
+
+    <script>
+        const users = [];
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // Verificar si el usuario ya está registrado
+            if (users.find(user => user.email === email)) {
+                alert('Este correo ya está registrado.');
+                return;
+            }
+
+            // Registrar nuevo usuario
+            users.push({ email, password });
+            alert('Registro exitoso. Ahora puedes iniciar sesión.');
+            showSection('login');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Validar credenciales
+            const user = users.find(user => user.email === email && user.password === password);
+            if (user) {
+                alert('Inicio de sesión exitoso.');
+                showSection('dashboard');
+            } else {
+                alert('Correo o contraseña incorrectos.');
+            }
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Mostrar la sección de registro al cargar
+        window.onload = () => showSection('registro');
+    </script>
+</body>
+</html>
